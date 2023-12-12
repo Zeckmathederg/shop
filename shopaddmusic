@@ -1,0 +1,14 @@
+#!/bin/sh
+if [[ $EUID == "0" ]]; then
+     echo "Don't run as root" 1>&2
+     exit 1
+fi
+mkdir -pv ~/Music/System/Shop
+cd ~/Music/System/Shop
+youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=8DCALxfJqz8&list=PL8xvZEqQr5-EW2feYzmDrdmBEfk_tHUQ6"
+exit_status=$?
+if [[ $exit_status != "0" ]]; then
+     echo "Examine the error(s) above!" 1>&2
+     exit 1;
+fi
+echo "All good! Happy shopping!" 1>&2
