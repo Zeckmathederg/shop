@@ -14,6 +14,6 @@ For custom bin directory:
 make BINDIR=sbin install
 ```
 # config
-/etc/shop is the config file, needs to be created in wanted. Only option to put in that file is `classic` which plays the first 3ds eshop song, overriding all the other seasonal songs - but the friendly message stays the same!
+/etc/shop is the config file, needs to be created if wanted. Only option to put in that file is `classic` which plays the first 3ds eshop song, overriding all the other seasonal songs - but the friendly message stays the same!
 # why?
 Wanted to give my lfs system more life, feel like i have a nintendo console, downloading cool packages!
