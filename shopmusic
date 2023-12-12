@@ -1,0 +1,64 @@
+#!/bin/sh
+check_pid_mpv=$(pidof mpv)
+if [[ $check_pid_mpv != "" ]]; then
+        echo "mpv is running in the backround" 1>&2
+        echo "Please terminate it before running Shop" 1>&2
+        exit 1
+fi
+date_month=$(date +%m)
+if [[ $date_month == "1" ]]; then
+        shop_theme="January-2015"
+	echo "Hope you're enjoying Winter! Happy shopping!" 2>&1
+fi
+if [[ $date_month == "2" ]]; then
+        shop_theme="January-2015"
+	echo "Winter is ending! Happy shopping!" 2>&1
+fi
+if [[ $date_month == "3" ]]; then
+        shop_theme="June-2011"
+	echo "Wear some green and happy shopping!" 2>&1
+fi
+if [[ $date_month == "4" ]]; then
+        shop_theme="May-2016"
+	echo "Enjoy the April showers and happy shopping!" 2>&1
+fi
+if [[ $date_month == "5" ]]; then
+        shop_theme="May-2016"
+	echo "Summer is around the corner! Happy shopping!" 2>&1
+fi
+if [[ $date_month == "6" ]]; then
+        shop_theme="July-2014"
+	echo "Summer is starting! Happy shopping!" 2>&1
+fi
+if [[ $date_month == "7" ]]; then
+	shop_theme="July-2014"
+	echo "Hope you're enjoying Summer! Happy shopping!" 2>&1
+fi
+if [[ $date_month == "8" ]]; then
+        shop_theme="July-2014"
+	echo "Summer is ending! Happy shopping!" 2>&1
+fi
+if [[ $date_month == "9" ]]; then
+        shop_theme="September-2015"
+	echo "Summer is over but shopping time isn't!" 2>&1
+fi
+if [[ $date_month == "10" ]]; then
+        shop_theme="June-2011"
+	echo "Trick or treat! Shopping spree!" 2>&1
+fi
+if [[ $date_month == "11" ]]; then
+        shop_theme="June-2011"
+	echo "Eat up and happy shopping!" 2>&1
+fi
+if [[ $date_month == "12" ]]; then
+        shop_theme="December-2013"
+	echo "Happy holidays and happy shopping!" 2>&1
+fi
+ls /etc/shop > /dev/null 2>&1
+config_file_exists=$?
+if [[ $config_file_exists == "0" ]]; then
+	if [[ $(cat /etc/shop) == "classic" ]]; then
+		shop_theme="June-2011"
+	fi
+fi
+mpv --volume=65.000 --loop ~/Music/System/Shop/${shop_theme}* > /dev/null 2>&1 &

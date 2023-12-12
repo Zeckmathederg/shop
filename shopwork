@@ -1,0 +1,62 @@
+#!/bin/sh
+pid_mpv=$(pidof mpv)
+mkdir -p /sources/working/linux/
+touch /sources/working/linux/dummy
+exit_linux_status=$?
+mkdir -p /sources/working/nvidia/runfiles/
+touch /sources/working/nvidia/runfiles/dummy
+exit_nvidia_status=$?
+if [[ $exit_linux_status != "0" ]]; then
+        echo "Shop cannot add to linux tarball directory" 1>&2
+        should_terminate=1
+fi
+if [[ $exit_nvidia_status != "0" ]]; then
+        echo "Shop cannot add to nvidia runfile directory" 1>&2
+        should_terminate=1
+fi
+if [[ $should_terminate == "1" ]]; then
+	echo "Aborting..." 1>&2
+	kill $pid_mpv
+	exit 1
+fi
+rm /sources/working/linux/dummy /sources/working/nvidia/runfiles/dummy
+echo "What do you want to shop for?" 1>&2
+echo "[l] for linux (choose whatever linux file)" 1>&2
+echo "[n] for nvidia (grab latest nvidia runfile)" 1>&2
+echo "[b] for both (default/press enter)" 1>&2
+echo "[q] to quit" 1>&2
+echo -n "> " 1>&2
+read shop_decision
+if [[ $shop_decision == "q" ]]; then
+	kill $pid_mpv
+	exit
+fi
+if [[ $shop_decision != "q" && $shop_decision != "l" && $shop_decision != "n" && $shop_decision != "b" && $shop_decision != "" ]]; then
+        echo "Unrecognized option: [$shop_decision], aborting..." 1>&2
+	kill $pid_mpv
+        exit 1
+fi
+linux_path() {
+	lynx https://kernel.org
+	mv linux* /sources/working/linux/
+}
+nvidia_path() {
+	echo "Fetching NVIDIA driver version" 1>&2
+	nvidia_pkgver=$(curl --silent "https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-utils/-/raw/main/PKGBUILD?ref_type=heads" | grep "pkgver=" | sed 's/pkgver=//')
+	echo "NVIDIA driver version: $nvidia_pkgver" 1>&2
+	echo "Fetching NVIDIA-$nvidia_pkgver" 1>&2
+	curl "https://us.download.nvidia.com/XFree86/Linux-x86_64/${nvidia_pkgver}/NVIDIA-Linux-x86_64-${nvidia_pkgver}.run" -o NVIDIA-Linux-x86_64-${nvidia_pkgver}.run
+	mv NVIDIA-* /sources/working/nvidia/runfiles
+}
+if [[ $shop_decision == "l" ]]; then
+	linux_path
+fi
+if [[ $shop_decision == "n" ]]; then
+        nvidia_path
+fi
+if [[ $shop_decision == "b" || $shop_decision == "" ]]; then
+        linux_path
+	nvidia_path
+fi
+echo "Enjoy!" 1>&2
+kill $pid_mpv
