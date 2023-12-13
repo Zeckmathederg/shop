@@ -13,6 +13,8 @@ For custom bin directory:
 ```
 make BINDIR=sbin install
 ```
+# adding music
+Run shopaddmusic to download shop music files. By default, all the shop music goes in ~/Music/System/Shop.
 # config
 /etc/shop is the config file, needs to be created if wanted. Only option to put in that file is `classic` which plays the first 3ds eshop song, overriding all the other seasonal songs - but the friendly message stays the same!
 # why?
