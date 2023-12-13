@@ -60,5 +60,21 @@ if [[ $config_file_exists == "0" ]]; then
 	if [[ $(cat /etc/shop) == "classic" ]]; then
 		shop_theme="June-2011"
 	fi
+	if [[ $(cat /etc/shop) == "theme" ]]; then
+		shop_theme="3DS-System"
+	fi
+	if [[ $(cat /etc/shop) == "dsi" ]]; then
+		shop_theme="Nintendo-DSi"
+	fi
+	if [[ $(cat /etc/shop) == "wii" ]]; then
+		shop_theme="Wii-Shop"
+	fi
+	if [[ $(cat /etc/shop) == "wiibanner" ]]; then
+		shop_theme="Banner"
+	fi
+	if [[ $(cat /etc/shop) != "classic" && $(cat /etc/shop) != "theme" && $(cat /etc/shop) != "dsi" && $(cat /etc/shop) != "wii" && $(cat /etc/shop) != "wiibanner" && $(cat /etc/shop) != "" ]]; then
+		echo "Undefined keyword in /etc/shop: $(cat /etc/shop)" 2>&1
+		echo "Accepted keywords: classic, theme, dsi, wii, wiibanner" 2>&1
+	fi
 fi
 mpv --volume=65.000 --loop ~/Music/System/Shop/${shop_theme}* > /dev/null 2>&1 &
