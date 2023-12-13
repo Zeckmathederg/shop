@@ -12,6 +12,7 @@ fi
 echo "youtube-dl found" 1>&2
 mkdir -pv ~/Music/System/Shop
 pushd ~/Music/System/Shop
+rm -vf ./*
 echo "Downloading 3DS eshop Music Pack..." 1>&2
 youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=8DCALxfJqz8&list=PL8xvZEqQr5-EW2feYzmDrdmBEfk_tHUQ6"
 exit_status=$?
