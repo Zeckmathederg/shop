@@ -48,7 +48,7 @@ if [[ $exit_status != "0" ]]; then
      echo "Examine the error(s) above!" 1>&2
      exit 1;
 fi
-for f in *\ *; do mv "$f" "${f// /-}"; done
-for f in *_*; do mv "$f" "${f//_/-}"; done
+for f in *\ *; do mv -v "$f" "${f// /-}"; done
+for f in *_*; do mv -v "$f" "${f//_/-}"; done
 popd
 echo "All good! Happy shopping!" 1>&2
