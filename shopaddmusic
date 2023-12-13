@@ -3,12 +3,51 @@ if [[ $EUID == "0" ]]; then
      echo "Don't run as root" 1>&2
      exit 1
 fi
+youtube-dl --help > /dev/null 2>&1
+does_youtube_dl_exist=$?
+if [[ $does_youtube_dl_exist != "0" ]]; then
+     echo "youtube-dl not in PATH, aborting..." 1>&2
+     exit 1
+fi
+echo "youtube-dl found" 1>&2
 mkdir -pv ~/Music/System/Shop
-cd ~/Music/System/Shop
+pushd ~/Music/System/Shop
+echo "Downloading 3DS eshop Music Pack..." 1>&2
 youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=8DCALxfJqz8&list=PL8xvZEqQr5-EW2feYzmDrdmBEfk_tHUQ6"
 exit_status=$?
 if [[ $exit_status != "0" ]]; then
      echo "Examine the error(s) above!" 1>&2
      exit 1;
 fi
+echo "Downloading 3DS Theme Shop Theme..." 1>&2
+youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=Bv9m8hJH-7A"
+exit_status=$?
+if [[ $exit_status != "0" ]]; then
+     echo "Examine the error(s) above!" 1>&2
+     exit 1;
+fi
+echo "Downloading DSi Shop Theme..." 1>&2
+youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=VsGQ-O9lEcA"
+exit_status=$?
+if [[ $exit_status != "0" ]]; then
+     echo "Examine the error(s) above!" 1>&2
+     exit 1;
+fi
+echo "Downloading Wii Shop Theme..." 1>&2
+youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=yyjUmv1gJEg"
+exit_status=$?
+if [[ $exit_status != "0" ]]; then
+     echo "Examine the error(s) above!" 1>&2
+     exit 1;
+fi
+echo "Downloading Wii Shop Banner Theme..." 1>&2
+youtube-dl -x --audio-format mp3 "https://www.youtube.com/watch?v=z0ud92UR1ho"
+exit_status=$?
+if [[ $exit_status != "0" ]]; then
+     echo "Examine the error(s) above!" 1>&2
+     exit 1;
+fi
+for f in *\ *; do mv "$f" "${f// /-}"; done
+for f in *_*; do mv "$f" "${f//_/-}"; done
+popd
 echo "All good! Happy shopping!" 1>&2
